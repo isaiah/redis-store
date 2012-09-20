@@ -58,7 +58,7 @@ module I18n
       protected
         def lookup(locale, key, scope = [], options = {})
           key = normalize_flat_keys(locale, key, scope, options[:separator])
-          @store.get "#{locale}.#{key}"
+          @store.get "#{locale}.#{key}" rescue nil
         end
 
         def resolve_link(locale, key)
