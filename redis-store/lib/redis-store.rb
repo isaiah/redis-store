@@ -1,4 +1,4 @@
-require 'redis'
+require 'redis-sentinel'
 require 'redis/store'
 require 'redis/store/factory'
 require 'redis/distributed_store'

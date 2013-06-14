@@ -22,7 +22,9 @@ class Redis
       def self.resolve(uri) #:api: private
         if uri.is_a?(Hash)
           options = uri.dup
-          options[:namespace] ||= options.delete(:key_prefix) # RailsSessionStore
+          unless options.has_key?(:master_name)
+            options[:namespace] ||= options.delete(:key_prefix) # RailsSessionStore
+          end
           options
         else
           uri = URI.parse(uri)

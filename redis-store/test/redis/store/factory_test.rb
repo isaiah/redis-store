@@ -57,6 +57,18 @@ describe "Redis::Store::Factory" do
           "Redis Client connected to localhost:6380 against DB 0",
         ])
       end
+
+      it "instantiate a Redis::Sentinel store" do
+        store = Redis::Store::Factory.create(
+          {master_name: "xml_feeds", sentinels: [
+            {:host => "127.0.0.1", :port => 26379},
+            {:host => "127.0.0.1", :port => 26380}]
+          }
+        )
+        store.must_be_kind_of(Redis::Store)
+        store.instance_variable_get(:@client).discover_master
+        store.to_s.must_equal("Redis Client connected to 127.0.0.1:16379 against DB 0")
+      end
     end
 
     describe "when given a String" do
@@ -94,5 +106,6 @@ describe "Redis::Store::Factory" do
         ])
       end
     end
+
   end
 end

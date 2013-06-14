@@ -53,9 +53,60 @@ class NodeTwoRedisRunner < RedisRunner
   end
 end
 
+class SentinelOneRedisRunner < RedisRunner
+  def self.configuration
+    File.expand_path("../../../test/config/sentinel/redis-sentinel1.conf", __FILE__)
+  end
+
+  def self.pid_file
+    File.expand_path(Dir.pwd + "/tmp/pids/redis-sentinel1.pid")
+  end
+
+  def self.start
+    system %(redis-server #{configuration} --sentinel)
+  end
+end
+
+class SentinelTwoRedisRunner < RedisRunner
+  def self.configuration
+    File.expand_path("../../../test/config/sentinel/redis-sentinel2.conf", __FILE__)
+  end
+
+  def self.pid_file
+    File.expand_path(Dir.pwd + "/tmp/pids/redis-sentinel1.pid")
+  end
+
+  def self.start
+    system %(redis-server #{configuration} --sentinel)
+  end
+
+end
+
+class MasterRedisRunner < RedisRunner
+  def self.configuration
+    File.expand_path("../../../test/config/sentinel/redis-master.conf", __FILE__)
+  end
+
+  def self.pid_file
+    File.expand_path(Dir.pwd + "/tmp/pids/redis-master.pid")
+  end
+end
+
+class SlaveRedisRunner < RedisRunner
+  def self.configuration
+    File.expand_path("../../../test/config/sentinel/redis-slave.conf", __FILE__)
+  end
+
+  def self.pid_file
+    File.expand_path(Dir.pwd + "/tmp/pids/redis-slave.pid")
+  end
+end
+
+
+
 class RedisReplicationRunner
   def self.runners
-    [ RedisRunner, NodeOneRedisRunner, NodeTwoRedisRunner ]
+    [ RedisRunner, NodeOneRedisRunner, NodeTwoRedisRunner ]#, SentinelOneRedisRunner, SentinelTwoRedisRunner, MasterRedisRunner, SlaveRedisRunner ]
   end
 
   def self.start

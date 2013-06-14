@@ -3,6 +3,7 @@ gemspec
 
 gem 'redis-store', '~> 1.1.0', :path => File.expand_path('../../redis-store', __FILE__)
 gem 'redis-rack',  '~> 1.4.0', :path => File.expand_path('../../redis-rack',  __FILE__)
+gem 'psych'
 gem 'SystemTimer', :platform => :mri_18
 
 version = ENV["RAILS_VERSION"] || "3.2"
