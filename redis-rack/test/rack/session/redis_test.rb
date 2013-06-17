@@ -3,6 +3,7 @@ require 'rack/mock'
 require 'thread'
 
 describe Rack::Session::Redis do
+  SENTINEL_CONF = {master_name: "xml_feeds", sentinels: [{host: "localhost", port: 26379},{host: "localhost", port: 26380}]}
   session_key = Rack::Session::Redis::DEFAULT_OPTIONS[:key]
   session_match = /#{session_key}=([0-9a-fA-F]+);/
   incrementor = lambda do |env|
@@ -131,7 +132,7 @@ describe Rack::Session::Redis do
   end
 
   it "deletes cookies with :drop option" do
-    pool = Rack::Session::Redis.new(incrementor)
+    pool = Rack::Session::Redis.new(incrementor, redis_server: SENTINEL_CONF)
     req = Rack::MockRequest.new(pool)
     drop = Rack::Utils::Context.new(pool, drop_session)
     dreq = Rack::MockRequest.new(drop)
@@ -150,7 +151,7 @@ describe Rack::Session::Redis do
   end
 
   it "provides new session id with :renew option" do
-    pool = Rack::Session::Redis.new(incrementor)
+    pool = Rack::Session::Redis.new(incrementor, redis_server: SENTINEL_CONF)
     req = Rack::MockRequest.new(pool)
     renew = Rack::Utils::Context.new(pool, renew_session)
     rreq = Rack::MockRequest.new(renew)
@@ -174,7 +175,7 @@ describe Rack::Session::Redis do
   end
 
   it "omits cookie with :defer option" do
-    pool = Rack::Session::Redis.new(incrementor)
+    pool = Rack::Session::Redis.new(incrementor, redis_server: SENTINEL_CONF)
     defer = Rack::Utils::Context.new(pool, defer_session)
     dreq = Rack::MockRequest.new(defer)
 
@@ -214,7 +215,7 @@ describe Rack::Session::Redis do
       next
     end
     warn 'Running multithread test for Session::Redis'
-    pool = Rack::Session::Redis.new(incrementor)
+    pool = Rack::Session::Redis.new(incrementor, redis_server: SENTINEL_CONF)
     req = Rack::MockRequest.new(pool)
 
     res = req.get('/')

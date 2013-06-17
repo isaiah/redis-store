@@ -7,8 +7,9 @@ class Object
 end
 
 describe Rack::Cache::EntityStore::Redis do
+  SENTINEL_CONF = {master_name: "xml_feeds", sentinels: [{host: "localhost", port: 26379},{host: "localhost", port: 26380}]}
   before do
-    @store = ::Rack::Cache::EntityStore::Redis.new :host => 'localhost'
+    @store = ::Rack::Cache::EntityStore::Redis.new SENTINEL_CONF
   end
 
   it 'has the class referenced by homonym constant' do

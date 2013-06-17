@@ -1,8 +1,9 @@
 require 'test_helper'
 
 describe ActiveSupport::Cache::RedisStore do
+  SENTINEL_CONF = {master_name: "xml_feeds", sentinels: [{host: "localhost", port: 26379},{host: "localhost", port: 26380}]}
   def setup
-    @store  = ActiveSupport::Cache::RedisStore.new
+    @store  = ActiveSupport::Cache::RedisStore.new SENTINEL_CONF
     @dstore = ActiveSupport::Cache::RedisStore.new "redis://127.0.0.1:6380/1", "redis://127.0.0.1:6381/1"
     @rabbit = OpenStruct.new :name => "bunny"
     @white_rabbit = OpenStruct.new :color => "white"

@@ -25,11 +25,11 @@ class RedisRunner
   end
 
   def self.stop
-    begin
+    #begin
       Process.kill('SIGTERM', pid)
-    rescue
+    #rescue
       # Suppress exceptions for Travis CI
-    end
+    #end
   end
 end
 
@@ -73,7 +73,7 @@ class SentinelTwoRedisRunner < RedisRunner
   end
 
   def self.pid_file
-    File.expand_path(Dir.pwd + "/tmp/pids/redis-sentinel1.pid")
+    File.expand_path(Dir.pwd + "/tmp/pids/redis-sentinel2.pid")
   end
 
   def self.start
@@ -106,7 +106,7 @@ end
 
 class RedisReplicationRunner
   def self.runners
-    [ RedisRunner, NodeOneRedisRunner, NodeTwoRedisRunner ]#, SentinelOneRedisRunner, SentinelTwoRedisRunner, MasterRedisRunner, SlaveRedisRunner ]
+    [ RedisRunner, NodeOneRedisRunner, NodeTwoRedisRunner, MasterRedisRunner, SentinelOneRedisRunner, SentinelTwoRedisRunner, SlaveRedisRunner ]
   end
 
   def self.start

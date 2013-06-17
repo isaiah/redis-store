@@ -1,8 +1,9 @@
 require 'test_helper'
 
 describe Rack::Cache::MetaStore::Redis do
+  SENTINEL_CONF = {master_name: "xml_feeds", sentinels: [{host: "localhost", port: 26379},{host: "localhost", port: 26380}]}
   before do
-    @store        = ::Rack::Cache::MetaStore::Redis.resolve   uri('redis://127.0.0.1')
+    @store        = ::Rack::Cache::MetaStore::Redis.resolve SENTINEL_CONF
     @entity_store = ::Rack::Cache::EntityStore::Redis.resolve uri('redis://127.0.0.1:6380')
     @request  = mock_request('/', {})
     @response = mock_response(200, {}, ['hello world'])

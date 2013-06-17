@@ -1,8 +1,9 @@
 require 'test_helper'
 
 describe "I18n::Backend::Redis" do
+  SENTINEL_CONF = {master_name: "xml_feeds", sentinels: [{host: "localhost", port: 26379},{host: "localhost", port: 26380}]}
   def setup
-    @backend     = I18n::Backend::Redis.new
+    @backend     = I18n::Backend::Redis.new SENTINEL_CONF
     @store       = @backend.store
     I18n.backend = @backend
   end

@@ -15,7 +15,8 @@ module Rack
         end
 
         def self.resolve(uri)
-          new ::Redis::Store::Factory.resolve(uri.to_s)
+          uri = uri.to_s if uri.kind_of?(URI::Generic)
+          new ::Redis::Store::Factory.resolve(uri)
         end
       end
 
