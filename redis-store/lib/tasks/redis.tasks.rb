@@ -106,7 +106,7 @@ end
 
 class RedisReplicationRunner
   def self.runners
-    [ RedisRunner, NodeOneRedisRunner, NodeTwoRedisRunner, MasterRedisRunner, SentinelOneRedisRunner, SentinelTwoRedisRunner, SlaveRedisRunner ]
+    [ NodeOneRedisRunner, NodeTwoRedisRunner, MasterRedisRunner, SentinelOneRedisRunner, SentinelTwoRedisRunner, SlaveRedisRunner ]
   end
 
   def self.start

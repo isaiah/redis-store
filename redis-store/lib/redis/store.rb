@@ -19,6 +19,8 @@ class Redis
       "Redis Client connected to #{@client.host}:#{@client.port} against DB #{@client.db}"
     end
 
+    alias :inspect :to_s
+
     private
       def _extend_marshalling(options)
         @marshalling = !(options[:marshalling] === false) # HACK - TODO delegate to Factory

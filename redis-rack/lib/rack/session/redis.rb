@@ -12,8 +12,8 @@ module Rack
 
       def initialize(app, options = {})
         super
-
         @mutex = Mutex.new
+
         @pool = ::Redis::Store::Factory.create @default_options[:redis_server]
       end
 
